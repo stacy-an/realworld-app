@@ -22,8 +22,8 @@ export const newRandomUser = {
 };
 
 export const updatedUser = {
-  firstName: "Kate",
-  lastName: "Lo",
+  firstName: "Edgar",
+  lastName: "Johns",
   email: "afterupdate@yahoo.com",
   phoneNumber: "625-316-1111",
 };
