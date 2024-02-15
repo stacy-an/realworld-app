@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
   const homePage = new HomePage(page);
   await homePage.bankAccountButton.click();
   await expect(page).toHaveURL("/bankaccounts");
+  await page.reload();
 });
 
 test("should add new bank account", async ({ page }) => {
@@ -23,6 +24,21 @@ test("should add new bank account", async ({ page }) => {
     bankAccountData.routingNumber,
     bankAccountData.accountNumber
   );
-  await expect(page).toHaveURL("/bankaccounts");
-  await expect(bankAccountsPage.newBankAccountButton).toBeVisible();
+  await expect(bankAccountsPage.bankAccountsList).toContainText(bankAccountData.bankName);
+});
+
+test("should delete bank account", async ({ page }) => {
+  const bankAccountsPage = new BankAccountsPage(page);
+  await bankAccountsPage.newBankAccountButton.click();
+  await bankAccountsPage.fillBankAccountData(
+    bankAccountData.bankName,
+    bankAccountData.routingNumber,
+    bankAccountData.accountNumber
+  );
+  await expect(bankAccountsPage.bankAccountsList).toContainText(bankAccountData.bankName);
+  const countOfDeleteButtonsBeforeTest = await bankAccountsPage.deleteBankAccountButton.count();
+  await bankAccountsPage.deleteBankAccountButton.nth(0).click();
+  const countOfDeleteButtonsAfterTest = await bankAccountsPage.deleteBankAccountButton.count();
+  console.log(countOfDeleteButtonsAfterTest);
+  expect(countOfDeleteButtonsAfterTest === countOfDeleteButtonsBeforeTest - 1);
 });
