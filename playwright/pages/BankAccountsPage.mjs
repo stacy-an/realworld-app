@@ -9,6 +9,7 @@ export class BankAccountsPage {
     this.routingNumberField = page.locator('[name="routingNumber"]');
     this.accountNumberField = page.locator('[name="accountNumber"]');
     this.bankAccountSubmitButton = page.locator('[type="submit"]');
+    this.bankAccountsList = page.locator('[data-test="bankaccount-list"]');
   }
 
   async fillBankAccountData(bankName, routingNumber, accountNumber) {
