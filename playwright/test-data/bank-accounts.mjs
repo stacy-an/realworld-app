@@ -5,3 +5,10 @@ export const bankAccountData = {
   routingNumber: generateString(9),
   accountNumber: generateString(9),
 };
+
+export const defaultBankAccount = {
+  userId: "t45AiwidW",
+  bankName: "O'Hara - Labadie Bank",
+  accountNumber: "6123387981",
+  routingNumber: "851823229",
+};
