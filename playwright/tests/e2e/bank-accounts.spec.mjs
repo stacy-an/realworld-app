@@ -39,6 +39,5 @@ test("should delete bank account", async ({ page }) => {
   const countOfDeleteButtonsBeforeTest = await bankAccountsPage.deleteBankAccountButton.count();
   await bankAccountsPage.deleteBankAccountButton.nth(0).click();
   const countOfDeleteButtonsAfterTest = await bankAccountsPage.deleteBankAccountButton.count();
-  console.log(countOfDeleteButtonsAfterTest);
   expect(countOfDeleteButtonsAfterTest === countOfDeleteButtonsBeforeTest - 1);
 });
