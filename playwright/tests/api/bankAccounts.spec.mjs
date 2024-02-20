@@ -21,3 +21,22 @@ test("Should get list of bank account", async ({ request }) => {
     })
   );
 });
+
+test("Should delete a bank account", async ({ request }) => {
+  const deleteBankAccount = await request.delete(`/bankAccounts/${defaultBankAccount.id}`);
+  expect(deleteBankAccount.ok()).toBeTruthy();
+
+  const getListOfBankAccounts = await request.get("/bankAccounts");
+  expect(getListOfBankAccounts.ok()).toBeTruthy();
+  const listOfBankAccounts = await getListOfBankAccounts.json();
+  const arrayOfBankAccounts = await listOfBankAccounts.results;
+  expect(arrayOfBankAccounts).toContainEqual(
+    expect.objectContaining({
+      userId: defaultBankAccount.userId,
+      bankName: defaultBankAccount.bankName,
+      accountNumber: defaultBankAccount.accountNumber,
+      routingNumber: defaultBankAccount.routingNumber,
+      isDeleted: true,
+    })
+  );
+});
