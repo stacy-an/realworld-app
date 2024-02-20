@@ -7,8 +7,10 @@ export const bankAccountData = {
 };
 
 export const defaultBankAccount = {
+  id: "RskoB7r4Bic",
   userId: "t45AiwidW",
   bankName: "O'Hara - Labadie Bank",
   accountNumber: "6123387981",
   routingNumber: "851823229",
+  isDeleted: false,
 };

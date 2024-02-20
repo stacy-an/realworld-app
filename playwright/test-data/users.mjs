@@ -27,3 +27,12 @@ export const updatedUser = {
   email: "afterupdate@yahoo.com",
   phoneNumber: "625-316-1111",
 };
+
+export const defaultApiUser = {
+  id: "qywYp6hS0U",
+  firstName: "Arely",
+  lastName: "Kertzmann",
+  username: "Tavares_Barrows",
+  email: "Aniya_Powlowski36@hotmail.com",
+  phoneNumber: "537-041-4355",
+};
