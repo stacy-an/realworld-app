@@ -4,13 +4,16 @@ import { updatedUser, validUser } from "../../test-data/users.mjs";
 import { AccountUserSettingPage } from "../../pages/AccountUserSettingPage.mjs";
 import { HomePage } from "../../pages/HomePage.mjs";
 
+let homePage;
+
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.goto();
   await loginPage.userLogin(validUser.username, validUser.password);
   await loginPage.verifyErrorIsDisplayed(false);
-  const homePage = new HomePage(page);
+  homePage = new HomePage(page);
   await homePage.myAccountButton.click();
+
   await expect(page).toHaveURL("/user/settings");
 });
 
@@ -22,9 +25,9 @@ test("should update account user settings", async ({ page }) => {
     updatedUser.email,
     updatedUser.phoneNumber
   );
-  const homePage = new HomePage(page);
   await homePage.homePageButton.click();
   await homePage.myAccountButton.click();
+
   await expect(accountUserSettingPage.firstNameField).toHaveValue(updatedUser.firstName);
   await expect(accountUserSettingPage.lastNameField).toHaveValue(updatedUser.lastName);
   await expect(accountUserSettingPage.emailField).toHaveValue(updatedUser.email);
