@@ -4,19 +4,20 @@ import { newRandomUser, validUser } from "../../test-data/users.mjs";
 
 let loginPage;
 
-test.describe("Login tests", (async) => {
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    await loginPage.goto();
-  });
+test.beforeEach(async ({ page }) => {
+  loginPage = new LoginPage(page);
 
-  test("should log in", async ({ page }) => {
-    await loginPage.userLogin(validUser.username, validUser.password);
-    await loginPage.verifyErrorIsDisplayed(false);
-  });
+  await loginPage.goto();
+});
 
-  test("should not login with non existed user", async ({ page }) => {
-    await loginPage.userLogin(newRandomUser.username, newRandomUser.password);
-    await loginPage.verifyErrorIsDisplayed(true);
-  });
+test("should log in", async ({ page }) => {
+  await loginPage.login(validUser.username, validUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
+});
+
+test("should not login with non existed user", async ({ page }) => {
+  await loginPage.login(newRandomUser.username, newRandomUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(true);
 });

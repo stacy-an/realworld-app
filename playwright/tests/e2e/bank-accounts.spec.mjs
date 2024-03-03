@@ -9,37 +9,30 @@ let bankAccountsPage;
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.userLogin(validUser.username, validUser.password);
-  await loginPage.verifyErrorIsDisplayed(false);
   const homePage = new HomePage(page);
-  await homePage.bankAccountButton.click();
-  await page.reload();
   bankAccountsPage = new BankAccountsPage(page);
-  await bankAccountsPage.newBankAccountButton.click();
+
+  await loginPage.goto();
+  await loginPage.login(validUser.username, validUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
+
+  await homePage.bankAccountButton.click();
 });
 
 test("should add new bank account", async ({ page }) => {
-  await bankAccountsPage.fillBankAccountData(
-    bankAccountData.bankName,
-    bankAccountData.routingNumber,
-    bankAccountData.accountNumber
-  );
+  await bankAccountsPage.newBankAccountButton.click();
+  await bankAccountsPage.fillBankAccountData(bankAccountData);
+  await page.reload();
 
   await expect(bankAccountsPage.bankAccountsList).toContainText(bankAccountData.bankName);
 });
 
 test("should delete bank account", async ({ page }) => {
-  await bankAccountsPage.fillBankAccountData(
-    bankAccountData.bankName,
-    bankAccountData.routingNumber,
-    bankAccountData.accountNumber
-  );
-
-  await expect(bankAccountsPage.bankAccountsList).toContainText(bankAccountData.bankName);
-
   const countOfDeleteButtonsBeforeTest = await bankAccountsPage.deleteBankAccountButton.count();
+
   await bankAccountsPage.deleteBankAccountButton.nth(0).click();
+
   const countOfDeleteButtonsAfterTest = await bankAccountsPage.deleteBankAccountButton.count();
 
   expect(countOfDeleteButtonsAfterTest === countOfDeleteButtonsBeforeTest - 1);

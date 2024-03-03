@@ -8,23 +8,21 @@ let homePage;
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.userLogin(validUser.username, validUser.password);
-  await loginPage.verifyErrorIsDisplayed(false);
   homePage = new HomePage(page);
-  await homePage.myAccountButton.click();
 
+  await loginPage.goto();
+  await loginPage.login(validUser.username, validUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
+
+  await homePage.myAccountButton.click();
   await expect(page).toHaveURL("/user/settings");
 });
 
 test("should update account user settings", async ({ page }) => {
   const accountUserSettingPage = new AccountUserSettingPage(page);
-  await accountUserSettingPage.updateAccountUserSettings(
-    updatedUser.firstName,
-    updatedUser.lastName,
-    updatedUser.email,
-    updatedUser.phoneNumber
-  );
+
+  await accountUserSettingPage.updateAccountUserSettings(updatedUser);
   await homePage.homePageButton.click();
   await homePage.myAccountButton.click();
 

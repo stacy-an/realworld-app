@@ -7,10 +7,12 @@ let homePage;
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.userLogin(validUser.username, validUser.password);
-  await loginPage.verifyErrorIsDisplayed(false);
   homePage = new HomePage(page);
+
+  await loginPage.goto();
+  await loginPage.login(validUser.username, validUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
 });
 
 test("should see account balance", async ({ page }) => {

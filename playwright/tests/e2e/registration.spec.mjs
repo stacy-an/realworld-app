@@ -5,14 +5,11 @@ import { LoginPage } from "../../pages/LoginPage.mjs";
 
 test("should register a new user", async ({ page }) => {
   const registrationPage = new RegistrationPage(page);
-  await registrationPage.goto();
-  await registrationPage.userRegister(
-    newRandomUser.firstName,
-    newRandomUser.lastName,
-    newRandomUser.username,
-    newRandomUser.password
-  );
   const loginPage = new LoginPage(page);
-  await loginPage.userLogin(newRandomUser.username, newRandomUser.password);
-  await loginPage.verifyErrorIsDisplayed(false);
+
+  await registrationPage.goto();
+  await registrationPage.userRegister(newRandomUser);
+  await loginPage.login(newRandomUser.username, newRandomUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
 });

@@ -7,10 +7,13 @@ let transactionPage;
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.userLogin(validUser.username, validUser.password);
-  await loginPage.verifyErrorIsDisplayed(false);
   transactionPage = new TransactionPage(page);
+
+  await loginPage.goto();
+  await loginPage.login(validUser.username, validUser.password);
+
+  expect(await loginPage.errorIsDisplayed()).toBe(false);
+
   await transactionPage.mineTab.click();
 });
 
@@ -22,7 +25,9 @@ test("Should see account transaction details", async ({ page }) => {
   await expect(page).toHaveURL("/personal");
 
   const amountBeforeClick = await transactionPage.transactionAmount.nth(1).innerText();
+
   await transactionPage.transactionAmount.nth(1).click();
+
   const amountAfterClick = await transactionPage.transactionAmount.innerText();
 
   await expect(transactionPage.transactionDetails).toBeVisible();
