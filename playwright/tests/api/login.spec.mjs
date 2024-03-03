@@ -8,5 +8,6 @@ test("should log in", async ({ request }) => {
       password: validUser.password,
     },
   });
-  expect(loginResponse.ok()).toBeTruthy();
+
+  expect(loginResponse.ok()).toBe(true);
 });

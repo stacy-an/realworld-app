@@ -16,7 +16,9 @@ test("should creates a new comment for a transaction", async ({ request }) => {
       },
     }
   );
-  expect(createCommentTransaction.ok()).toBeTruthy;
+
+  expect(createCommentTransaction.ok()).toBe(true);
+
   const getListOfTransactions = await request.get("/transactions");
   const listOfTransactions = await getListOfTransactions.json();
   const arrayOfTransactions = await listOfTransactions.results;
@@ -24,6 +26,7 @@ test("should creates a new comment for a transaction", async ({ request }) => {
     (transaction) => transaction.id === defaultTransaction.transactionId
   );
   const transactionComments = await searchedTransactionById.comments;
+
   expect(transactionComments).toContainEqual(
     expect.objectContaining({ content: defaultTransaction.content })
   );

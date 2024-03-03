@@ -9,9 +9,12 @@ test.beforeEach(async ({ request }) => {
 
 test("Should get list of bank account", async ({ request }) => {
   const getListOfBankAccounts = await request.get("/bankAccounts");
-  expect(getListOfBankAccounts.ok()).toBeTruthy();
+
+  expect(getListOfBankAccounts.ok()).toBe(true);
+
   const listOfBankAccounts = await getListOfBankAccounts.json();
   const arrayOfBankAccounts = await listOfBankAccounts.results;
+
   expect(arrayOfBankAccounts).toContainEqual(
     expect.objectContaining({
       userId: defaultBankAccount.userId,
@@ -24,12 +27,16 @@ test("Should get list of bank account", async ({ request }) => {
 
 test("Should delete a bank account", async ({ request }) => {
   const deleteBankAccount = await request.delete(`/bankAccounts/${defaultBankAccount.id}`);
-  expect(deleteBankAccount.ok()).toBeTruthy();
+
+  expect(deleteBankAccount.ok()).toBe(true);
 
   const getListOfBankAccounts = await request.get("/bankAccounts");
-  expect(getListOfBankAccounts.ok()).toBeTruthy();
+
+  expect(getListOfBankAccounts.ok()).toBe(true);
+
   const listOfBankAccounts = await getListOfBankAccounts.json();
   const arrayOfBankAccounts = await listOfBankAccounts.results;
+
   expect(arrayOfBankAccounts).toContainEqual(
     expect.objectContaining({
       userId: defaultBankAccount.userId,

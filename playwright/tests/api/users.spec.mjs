@@ -17,7 +17,9 @@ test("Should get a user profile by username", async ({ request }) => {
 
 test("Should get list of users", async ({ request }) => {
   const getListOfUsers = await request.get("/users");
-  expect(getListOfUsers.ok()).toBeTruthy();
+
+  expect(getListOfUsers.ok()).toBe(true);
+
   const listOfUsers = await getListOfUsers.json();
   const arrayOfUsers = await listOfUsers.results;
   const isSearchedUserPresent = arrayOfUsers.some(
@@ -28,5 +30,6 @@ test("Should get list of users", async ({ request }) => {
       user.phoneNumber === defaultApiUser.phoneNumber &&
       user.email === defaultApiUser.email
   );
-  expect(isSearchedUserPresent).toBeTruthy();
+
+  expect(isSearchedUserPresent).toBe(true);
 });
